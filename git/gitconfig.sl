@@ -1,6 +1,6 @@
 [user]
-	name = Kulesh Shanmugasundaram
-	email = kulesh@kulesh.org
+	name = Pratap Chand 
+	email = pratapchand@gmail.com
 
 [core]
 	editor = vim
@@ -21,9 +21,6 @@
 
 [format]
 	pretty = oneline
-
-[credential]
-        helper = osxkeychain
 
 [hub]
         protocol = https

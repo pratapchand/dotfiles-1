@@ -2,10 +2,12 @@
 
 source include/shared_vars.sh
 
-BREWED_TOOLS=(rbenv ruby-build libpqxx grc coreutils hub tree aspell --lang=en) #tools to install via Homebrew
-PIP_TOOLS=(virtualenvwrapper) #tools to install via pip
-RUBY_GEMS=(bundler hoe bundler foreman pg rails thin)
+BREWED_TOOLS=(rbenv ruby-build libpqxx grc coreutils hub tree zsh htop tmux aspell --lang=en) #tools to install via Homebrew
+BREWED_APPS=(google-chrome seil) # Applications to install
+PIP_TOOLS=(virtualenvwrapper) #tools to install via pipi
+RUBY_GEMS=(bundler hoe bundler foreman pg rails thin tmuxinator)
 BACKUP_DIR='' #where we will backup this instance of install
+
 
 #install pip and friends
 install_pip()
@@ -32,6 +34,7 @@ install_homebrew()
     #brew me some goodness
     brew update
     brew install $BREWED_TOOLS
+    brew cask install $BREWED_APPS
 }
 
 #install Ruby Gems
@@ -50,7 +53,31 @@ install_rubygems()
     fi
 }
 
-#install Janus
+install_zsh () {
+# Test to see if zshell is installed.  If it is:
+if [ -f /bin/zsh -o -f /usr/local/bin/zsh ]; then
+    # Clone my oh-my-zsh repository from GitHub only if it isn't already present
+    if [[ ! -d $dir/oh-my-zsh/ ]]; then
+        git clone http://github.com/robbyrussell/oh-my-zsh.git ~/.zsh
+    fi
+    # Set the default shell to zsh if it isn't currently set to zsh
+    if [[ ! $(echo $SHELL) == $(which zsh) ]]; then
+        chsh -s $(which zsh)
+    fi
+else
+    echo "Please install zsh, then re-run this script!"
+    exit
+fi
+}
+
+# install go
+install_go()
+{
+    curl -L https://storage.googleapis.com/golang/go1.6.2.src.tar.gz -o /tmp/go.src.tar.gz
+    tar -C /usr/local -xzf go.tar.gz
+}
+
+# install Janus
 install_janus()
 {
     vim_home=$HOME/.vim
@@ -93,6 +120,15 @@ create_backup_dir()
     fi
 }
 
+#create user folder
+create_folder()
+{
+    #create folder for the following
+    for f in $USER_FOLDERS do
+        mkdir -p "$BACKUP/$f"
+    done
+}
+
 #backup a file
 backup_file()
 {
@@ -110,12 +146,15 @@ initialize()
     install_pip
     echo "     [+] Installing Ruby Gems"
     install_rubygems
+    echo "     [+] Installing OMZ"
+    install_zsh
     echo "     [+] Installing Janus for vim"
     install_janus
     echo "     [+] Installing CLI font"
     install_cli_font
 
     create_backup_dir
+    create_folder
 }
 
 #install the dot files in $HOME_DIR
@@ -132,9 +171,10 @@ install_dotfiles()
             backup_file $BACKUP_DIR $target
         fi
 
-       ln -s $f $target;
+       ln -fs $f $target;
     done
 }
+
 
 #unleash the dots!
 initialize

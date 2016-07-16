@@ -4,7 +4,7 @@ PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 source "`brew --prefix`/etc/grc.bashrc"
 
 #default location of things
-export DOTFILES=$HOME/.dotfiles
+export DOTFILES=$HOME/dotfiles
 export PROJECTS=$HOME/dev
 
 #Setup virtualenv variables
