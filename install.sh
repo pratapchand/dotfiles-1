@@ -3,7 +3,7 @@
 source include/shared_vars.sh
 
 BREWED_TOOLS=(rbenv ruby-build libpqxx grc coreutils hub tree zsh htop tmux aspell --lang=en) #tools to install via Homebrew
-BREWED_APPS=(google-chrome seil) # Applications to install
+BREWED_APPS=(google-chrome seil vlc) # Applications to install
 PIP_TOOLS=(virtualenvwrapper) #tools to install via pipi
 RUBY_GEMS=(bundler hoe bundler foreman pg rails thin tmuxinator)
 BACKUP_DIR='' #where we will backup this instance of install
