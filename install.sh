@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/zsh 
 
 source include/shared_vars.sh
 
@@ -6,13 +6,13 @@ BREWED_TOOLS=(rbenv ruby-build libpqxx grc coreutils hub tree zsh htop tmux aspe
 BREWED_APPS=(google-chrome seil vlc) # Applications to install
 PIP_TOOLS=(virtualenvwrapper) #tools to install via pipi
 RUBY_GEMS=(bundler hoe bundler foreman pg rails thin tmuxinator)
-BACKUP_DIR='' #where we will backup this instance of install
+BACKUP_DIR= #where we will backup this instance of install
 
 
 #install pip and friends
 install_pip()
 {
-    if test ! $(which pip)
+    if test ! $(`which pip`)
     then
         echo "     [-] There is no pip. Going to install pip. This will ask for your root password."
         sudo easy_install pip
@@ -25,10 +25,10 @@ install_pip()
 install_homebrew()
 {
     #Install homebrew
-    if test ! $(which brew)
+    if test ! $(`which brew`)
     then
         echo "     [-] There is no Homebrew. Going to install Homebrew."
-        ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go/install)"
+        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
 
     #brew me some goodness
@@ -41,7 +41,7 @@ install_homebrew()
 install_rubygems()
 {
     #Install gems
-    if test ! $(which gem)
+    if test ! $(`which gem`)
     then
       echo "     [-] There is no Gem. You need to install Ruby. (brew install ruby)"
     else
@@ -57,12 +57,12 @@ install_zsh () {
 # Test to see if zshell is installed.  If it is:
 if [ -f /bin/zsh -o -f /usr/local/bin/zsh ]; then
     # Clone my oh-my-zsh repository from GitHub only if it isn't already present
-    if [[ ! -d $dir/oh-my-zsh/ ]]; then
+    if [[ ! -d $HOME_DIR/.zsh/ ]]; then
         git clone http://github.com/robbyrussell/oh-my-zsh.git ~/.zsh
     fi
     # Set the default shell to zsh if it isn't currently set to zsh
-    if [[ ! $(echo $SHELL) == $(which zsh) ]]; then
-        chsh -s $(which zsh)
+    if [[ ! $(echo $SHELL) == $(`which zsh`) ]]; then
+        chsh -s $(`which zsh`)
     fi
 else
     echo "Please install zsh, then re-run this script!"
@@ -71,10 +71,13 @@ fi
 }
 
 # install go
-install_go()
+install_go_nth()
 {
-    curl -L https://storage.googleapis.com/golang/go1.6.2.src.tar.gz -o /tmp/go.src.tar.gz
-    tar -C /usr/local -xzf go.tar.gz
+    brew update
+    brew install go --cross-compiler-common
+    export GOPATH=$HOME_DIR/go
+    go get golang.org/x/tools/cmd/godoc
+    go get github.com/golang/lint/golint
 }
 
 # install Janus
@@ -124,8 +127,8 @@ create_backup_dir()
 create_folder()
 {
     #create folder for the following
-    for f in $USER_FOLDERS do
-        mkdir -p "$BACKUP/$f"
+    for f in $USER_FOLDERS; do
+        mkdir -p "$f"
     done
 }
 
@@ -152,9 +155,12 @@ initialize()
     install_janus
     echo "     [+] Installing CLI font"
     install_cli_font
-
+    echo "     [+] Creating backup folders"
     create_backup_dir
+    echo "     [+] Creating User folders"
     create_folder
+    echo "     [+] Installing Go"
+    install_go_nth
 }
 
 #install the dot files in $HOME_DIR
