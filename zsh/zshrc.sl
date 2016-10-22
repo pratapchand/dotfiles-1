@@ -1,5 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=~/.zsh
+export ZSH_DOT=~/dotfiles
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -72,6 +73,16 @@ if [ -f $VIRTUALENV_WRAPPER_SOURCE ]
 then
     source $VIRTUALENV_WRAPPER_SOURCE
 fi
+
+# all of our zsh files
+typeset -U config_files
+config_files=($ZSH_DOT/**/*.zsh)
+
+# load the path files
+for file in ${(M)config_files:#*/path.zsh}
+do
+  source $file
+done
 
 # Uncomment if you want to use a local profile.
 # source ~/.profile
