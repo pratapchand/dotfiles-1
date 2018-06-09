@@ -1,3 +1,4 @@
+# chroma
 set -g default-terminal "screen-256color"
 
 # thanks to PCKeyboardHack, F10 is caps lock and caps lock is F10
@@ -13,9 +14,6 @@ set -sg escape-time 0
 set -g base-index 1
 setw -g pane-base-index 1
 
-# reload ~/.tmux.conf using PREFIX r
-bind r source-file ~/.tmux.conf \; display "Reloaded!"
-
 # use PREFIX | to split window horizontally and PREFIX - to split vertically
 bind | split-window -h
 bind - split-window -v
@@ -30,19 +28,34 @@ set-window-option -g automatic-rename off
 set -g status-left "#h:[#S]"
 set -g status-left-length 50
 set -g status-right-length 50
+
 set -g history-limit 100000
-#set -g status-right "⚡ #(~/.tmux/plugins/tmux-battery) %H:%M %d-%h-%Y"
 #setw -g window-status-current-format "|#I:#W|"
 set-window-option -g automatic-rename off
-
-set -g status-right " #{battery_icon} #{battery_percentage} [#{battery_remain}] | %a  %H:%M %d-%h-%Y"
-
-# highlight active window
-set-window-option -g window-status-current-bg colour238
-set-window-option -g window-status-current-fg colour81
-set-window-option -g window-status-current-attr bold
-set-window-option -g window-status-current-format ' [#I] #W '
 
 # Activity monitoring
 setw -g monitor-activity on
 set -g visual-activity on
+
+# force a reload of the config file
+unbind r
+bind r source-file ~/.tmux.conf
+
+# quick pane cycling
+unbind ^A
+bind ^A select-pane -t :.+
+
+# pane sizing
+bind u resize-pane -U 10
+bind d resize-pane -D 10
+bind l resize-pane -L 10
+bind r resize-pane -R 10
+
+# direnv subshell mangling
+set-option -g update-environment "DIRENV_DIFF DIRENV_DIR DIRENV_WATCHES"
+set-environment -gu DIRENV_DIFF
+set-environment -gu DIRENV_DIR
+set-environment -gu DIRENV_WATCHES
+set-environment -gu DIRENV_LAYOUT
+
+source-file "${DOTFILES}/tmux/tmux-themepack/powerline/double/cyan.tmuxtheme"

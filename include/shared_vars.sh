@@ -1,8 +1,8 @@
 #!/bin/sh
 
-#shared variables between install.sh and revert.sh
-HOME_DIR=$HOME #makes it easy to test
+# Shared variables between install.sh and revert.sh
+HOME_DIR=$HOME # Makes it easy to test
 BACKUP_ROOT="$HOME_DIR/.dotbackup"
-SYMLINK_EXT="sl" #extension of files to symlink
+SYMLINK_EXT="sl" # Extension of files to symlink
 BACKUP="$HOME_DIR/.backup"
 USER_FOLDERS=("$BACKUP/vim" "$HOME_DIR/dev" "$HOME_DIR/go")

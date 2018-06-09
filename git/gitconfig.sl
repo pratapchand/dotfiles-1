@@ -15,6 +15,7 @@
 	st = status
 	ci = commit
 	co = checkout
+  sme = shortlog -sn
 
 [branch]
 	autosetupmerge = true
@@ -22,5 +23,7 @@
 [format]
 	pretty = oneline
 
-[hub]
-        protocol = https
+[credential]
+        helper = osxkeychain
+[init]
+	templatedir = ~/.git_template
