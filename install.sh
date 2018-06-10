@@ -19,7 +19,7 @@ BACKUP_DIR='' # where we will backup this instance of install
 
 install_homebrew()
 {
-    if ! type "$brew" &> /dev/null; then
+    if ! type "brew" &> /dev/null; then
         echo "     [-] There is no Homebrew. Going to install Homebrew."
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
