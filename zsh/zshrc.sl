@@ -84,8 +84,8 @@ precmd () {
   vcs_info
 }
 
-setopt prompt_subst
-PROMPT='%F{white}%n@%m %c${vcs_info_msg_0_}%F{white} %(?/%F{white}/%F{red})%% %{$reset_color%}'
+#setopt prompt_subst
+#PROMPT='%F{white}%n@%m %c${vcs_info_msg_0_}%F{white} %(?/%F{white}/%F{red})%% %{$reset_color%}'
 
 # history
 setopt histignorealldups sharehistory
